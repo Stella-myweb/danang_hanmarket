@@ -6,7 +6,7 @@
   <title>다낭 고수의 2025 한시장 시세표</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Sans KR', sans-serif; }
-    body { background-color: #f9f9f9; color: #333; padding-top: 260px; }
+    body { background-color: #f9f9f9; color: #333; padding-top: 300px; }
     header {
       position: fixed;
       top: 0; left: 0; width: 100%;
@@ -21,49 +21,152 @@
       justify-content: center;
       background-color: #ffe600;
       padding: 10px;
-      gap: 10px;
+      gap: 8px;
     }
     nav button {
       background: white;
       border: 1px solid #ccc;
       border-radius: 20px;
-      padding: 8px 16px;
+      padding: 6px 12px;
       font-weight: bold;
       cursor: pointer;
+      font-size: 12px;
     }
     nav button:hover { background: #f0f0f0; }
     main {
-      max-width: 960px;
+      max-width: 1200px;
       margin: auto;
       padding: 20px;
     }
     section {
       margin-bottom: 40px;
-      padding: 20px;
+      padding: 25px;
       background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     section h2 {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       color: #e69500;
+      border-bottom: 3px solid #ffe600;
+      padding-bottom: 10px;
+    }
+    section h3 {
+      margin: 20px 0 15px 0;
+      color: #d48806;
+      font-size: 1.2em;
+    }
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .price-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #ffe600;
+    }
+    .price-item strong {
+      color: #d48806;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .price {
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .shop-recommend {
+      background: #e8f5e8;
+      border: 1px solid #4caf50;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .shop-recommend strong {
+      color: #2e7d32;
+    }
+    .tip-box {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+    }
+    .tip-box h4 {
+      color: #856404;
+      margin-bottom: 10px;
+    }
+    .warning {
+      background: #f8d7da;
+      border: 1px solid #dc3545;
+      border-radius: 6px;
+      padding: 10px;
+      margin: 10px 0;
+      color: #721c24;
     }
     .fixed-ads {
       position: fixed;
-      right: 0;
-      top: 260px;
+      right: 10px;
+      top: 300px;
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
     footer {
       text-align: center;
-      padding: 20px;
+      padding: 30px 20px;
       background: #eee;
+      margin-top: 40px;
+    }
+    .currency-note {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      text-align: center;
+      font-weight: bold;
+      color: #0c5460;
+    }
+    .shop-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .shop-item {
+      background: #f1f8ff;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #0066cc;
+    }
+    .shop-number {
+      background: #0066cc;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    ul, ol {
+      margin-left: 20px;
+      margin-top: 10px;
+    }
+    li {
+      margin-bottom: 8px;
+      line-height: 1.5;
     }
     @media (max-width: 768px) {
-      nav { justify-content: flex-start; overflow-x: auto; }
+      body { padding-top: 320px; }
+      nav { justify-content: flex-start; overflow-x: auto; padding: 8px; }
+      nav button { font-size: 11px; padding: 5px 10px; }
       .fixed-ads { display: none; }
+      .price-grid { grid-template-columns: 1fr; }
+      .shop-list { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -73,111 +176,718 @@
       <iframe border="0" src="https://kr.trip.com/partners/ad/S4059757?Allianceid=5803428&SID=154272896&trip_sub1=" style="width:100%;height:200px" frameborder="0" scrolling="no" id="S4059757"></iframe>
     </div>
     <nav>
-      <button onclick="scrollToSection('overview')">기본 정보</button>
+      <button onclick="scrollToSection('overview')">기본정보</button>
       <button onclick="scrollToSection('clothes')">의류</button>
       <button onclick="scrollToSection('shoes')">신발</button>
       <button onclick="scrollToSection('bags')">가방/모자</button>
-      <button onclick="scrollToSection('swim')">수영복/캐리어</button>
+      <button onclick="scrollToSection('swim')">수영복</button>
+      <button onclick="scrollToSection('luggage')">캐리어</button>
       <button onclick="scrollToSection('food')">식품/과일</button>
-      <button onclick="scrollToSection('fixedprice')">정찰제 업체</button>
-      <button onclick="scrollToSection('tips')">쇼핑 꿀팁</button>
+      <button onclick="scrollToSection('shops')">추천매장</button>
+      <button onclick="scrollToSection('tips')">쇼핑꿀팁</button>
     </nav>
   </header>
+  
   <div class="fixed-ads">
     <iframe border="0" src="https://kr.trip.com/partners/ad/DB4059876?Allianceid=5803428&SID=154272896&trip_sub1=%ED%95%9C%EC%8B%9C%EC%9E%A5%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80" style="width:300px;height:250px" frameborder="0" scrolling="no" id="DB4059876"></iframe>
   </div>
+
   <main>
+    <div class="currency-note">
+      💰 2025년 1-5월 기준 환율: 1,000동 = 약 54원
+    </div>
+
     <section id="overview">
-  <h2>기본 정보</h2>
-  <p><strong>위치:</strong> 119 Tran Phu Street, Hai Chau District, Da Nang, Vietnam<br>
-     <strong>영업시간:</strong> 매일 오전 6시 ~ 오후 7시 (방문 권장: 오전 8시 ~ 오후 4시)<br>
-     <strong>구성:</strong> 2층 구조<br>
-     <strong>1층:</strong> 식품, 과일, 기념품, 라탄 제품, 건어물, 젓갈, 커피, 일부 잡화<br>
-     <strong>2층:</strong> 의류, 신발, 가방, 모자, 수영복, 속옷, 크록스, 캐리어 등<br><br>
-     <strong>한시장 특징:</strong> 다낭 시내 중심에 위치한 대형 시장으로 한국인들에게 "경기도 다낭"이라는 별명이 붙을 정도로 인기 있는 쇼핑 장소</p>
-</section>
+      <h2>📍 기본 정보</h2>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>📍 위치</strong>
+          119 Tran Phu Street, Hai Chau District, Da Nang, Vietnam
+        </div>
+        <div class="price-item">
+          <strong>🕐 영업시간</strong>
+          매일 오전 6시 ~ 오후 7시<br>
+          <span class="price">권장: 오전 8시 ~ 오후 4시</span>
+        </div>
+        <div class="price-item">
+          <strong>🏢 구성</strong>
+          <strong>1층:</strong> 식품, 과일, 기념품, 라탄제품<br>
+          <strong>2층:</strong> 의류, 신발, 가방, 캐리어
+        </div>
+        <div class="price-item">
+          <strong>🏷️ 특징</strong>
+          다낭 시내 중심 대형 시장<br>
+          한국인들 사이에서 "경기도 다낭" 별명
+        </div>
+      </div>
+    </section>
 
     <section id="clothes">
-  <h2>의류 시세표</h2>
-  <p>티셔츠, 바지, 속옷, 원피스, 아오자이, 양말 가격 정보와 추천 매장 정리</p>
-  <ul>
-    <li><strong>티셔츠:</strong> 5만동~20만동 / 추천: 143번, 185번, 234번</li>
-    <li><strong>바지/반바지:</strong> 5만동~20만동 / 추천: 143번, 185번, 234번</li>
-    <li><strong>속옷/잠옷:</strong> 2만동~20만동 / 추천: 162번</li>
-    <li><strong>원피스/아오자이:</strong> 8만동~50만동 / 맞춤 제작 가능</li>
-    <li><strong>양말:</strong> 1만동~3만동 / 10켤레 세트 10만동 / 추천: 169번</li>
-  </ul>
-</section>
+      <h2>👕 의류 시세표</h2>
+      
+      <h3>티셔츠</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>편집 티셔츠</strong>
+          <span class="price">5만동~15만동 (2,700~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나이키 티셔츠</strong>
+          <span class="price">5만동~20만동 (2,700~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아디다스 티셔츠</strong>
+          <span class="price">5만동~20만동 (2,700~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나시티</strong>
+          <span class="price">5만동~12만동 (2,700~6,500원)</span>
+        </div>
+        <div class="price-item">
+          <strong>하와이안 셔츠</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>자수 로고 티셔츠 (추천)</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 143번(2층), 185번(2층, 정찰제), 234번(2층)
+      </div>
+
+      <h3>바지/반바지</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>반바지</strong>
+          <span class="price">5만동~15만동 (2,700~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나이키 운동복 바지</strong>
+          <span class="price">5만동~20만동 (2,700~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아디다스 트레이닝 바지</strong>
+          <span class="price">5만동~20만동 (2,700~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>코끼리바지(냉장고바지)</strong>
+          <span class="price">5만동~10만동 (2,700~5,400원)</span>
+        </div>
+      </div>
+
+      <h3>속옷/잠옷</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>심리스 속옷</strong>
+          <span class="price">2만동~5만동 (1,100~2,700원)</span>
+        </div>
+        <div class="price-item">
+          <strong>브랜드 속옷(CK 등)</strong>
+          <span class="price">4만동~8만동 (2,200~4,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>브라탑</strong>
+          <span class="price">3만동~7만동 (1,600~3,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>트렁크(남성속옷)</strong>
+          <span class="price">3만동~6만동 (1,600~3,200원)</span>
+        </div>
+        <div class="price-item">
+          <strong>여성 팬티</strong>
+          <span class="price">2만동~5만동 (1,100~2,700원)</span>
+        </div>
+        <div class="price-item">
+          <strong>잠옷 세트</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 162번(2층)
+      </div>
+      
+      <div class="tip-box">
+        <h4>💡 구매 팁</h4>
+        • 한 사이즈 큰 것을 고르는 것이 좋음<br>
+        • 구매 시 덤으로 양말 주는 경우도 있음
+      </div>
+
+      <h3>원피스/아오자이</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>원피스</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>맞춤 아오자이</strong>
+          <span class="price">30만동~50만동 (16,000~27,000원)</span>
+          <small>제작시간: 2시간 내외</small>
+        </div>
+        <div class="price-item">
+          <strong>기성품 아오자이</strong>
+          <span class="price">20만동~40만동 (10,800~21,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아동용 아오자이</strong>
+          <span class="price">15만동~25만동 (8,000~13,500원)</span>
+        </div>
+      </div>
+
+      <h3>양말</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>일반 양말</strong>
+          <span class="price">1만동~2만동 (540~1,100원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나이키/아디다스 양말</strong>
+          <span class="price">1만동~3만동 (540~1,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>발목 양말</strong>
+          <span class="price">1만동~2만동 (540~1,100원)</span>
+        </div>
+        <div class="price-item">
+          <strong>10켤레 세트</strong>
+          <span class="price">10만동 내외 (약 5,400원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 169번(2층)
+      </div>
+    </section>
 
     <section id="shoes">
-  <h2>신발 시세표</h2>
-  <ul>
-    <li><strong>크록스:</strong> 15만동~30만동 / 추천: 256번, 257번, 259번</li>
-    <li><strong>브랜드 신발 (운동화, 슬리퍼):</strong> 10만동~45만동 / 추천: 256~259번</li>
-    <li><strong>주의사항:</strong> 짝짝이 확인, 물놀이용은 내구성 낮음</li>
-  </ul>
-</section>
+      <h2>👟 신발 시세표</h2>
+      
+      <h3>크록스</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>기본 크록스</strong>
+          <span class="price">15만동~18만동 (8,000~9,700원)</span>
+        </div>
+        <div class="price-item">
+          <strong>지비츠 포함 크록스</strong>
+          <span class="price">20만동~22만동 (10,800~11,900원)</span>
+        </div>
+        <div class="price-item">
+          <strong>겨울용/특수 디자인</strong>
+          <span class="price">22만동~30만동 (11,900~16,200원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아동용 크록스</strong>
+          <span class="price">12만동~15만동 (6,500~8,000원)</span>
+        </div>
+      </div>
+      
+      <div class="warning">
+        ⚠️ <strong>구매 시 주의사항:</strong> 마감 상태, 밑창, 양발 짝짝이, 지비츠 구멍 크기 확인 필수
+      </div>
+      
+      <h3>브랜드 신발</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>나이키/아디다스 슬리퍼</strong>
+          <span class="price">10만동~15만동 (5,400~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나이키 운동화</strong>
+          <span class="price">20만동~40만동 (10,800~21,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아디다스 운동화</strong>
+          <span class="price">20만동~45만동 (10,800~24,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>반스 스니커즈</strong>
+          <span class="price">15만동~35만동 (8,000~18,900원)</span>
+        </div>
+        <div class="price-item">
+          <strong>샌들류</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 256번(2층), 257번(2층), 259번(2층)
+      </div>
+      
+      <div class="warning">
+        ⚠️ <strong>주의:</strong> 운동화는 내구성이 좋지 않음, 물놀이용/일회성 사용 권장
+      </div>
+    </section>
 
     <section id="bags">
-  <h2>가방/모자 시세표</h2>
-  <ul>
-    <li><strong>모자:</strong> 4만동~15만동 / 추천: 293번</li>
-    <li><strong>가방:</strong> 8만동~45만동 / 나이키, 샤넬 스타일 등 다양</li>
-    <li><strong>라탄 제품:</strong> 2만동~20만동 / 추천: 18번, 해피브레드 옆</li>
-  </ul>
-</section>
+      <h2>👜 가방/모자 시세표</h2>
+      
+      <h3>모자</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>나이키/아디다스 캡모자</strong>
+          <span class="price">6만동~12만동 (3,200~6,500원)</span>
+        </div>
+        <div class="price-item">
+          <strong>MLB 모자</strong>
+          <span class="price">7만동~15만동 (3,800~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>버킷햇(벙거지)</strong>
+          <span class="price">5만동~10만동 (2,700~5,400원)</span>
+        </div>
+        <div class="price-item">
+          <strong>비치 선캡</strong>
+          <span class="price">4만동~8만동 (2,200~4,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>전통 모자(농)</strong>
+          <span class="price">5만동~10만동 (2,700~5,400원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 293번(2층)
+      </div>
+
+      <h3>브랜드 가방</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>구찌 스타일 가방</strong>
+          <span class="price">15만동~40만동 (8,000~21,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>루이비통 스타일 가방</strong>
+          <span class="price">15만동~45만동 (8,000~24,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>샤넬 스타일 가방</strong>
+          <span class="price">15만동~45만동 (8,000~24,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>나이키/아디다스 보스턴백</strong>
+          <span class="price">15만동~30만동 (8,000~16,200원)</span>
+        </div>
+        <div class="price-item">
+          <strong>노스페이스 배낭</strong>
+          <span class="price">15만동~35만동 (8,000~18,900원)</span>
+        </div>
+        <div class="price-item">
+          <strong>슬링백</strong>
+          <span class="price">10만동~25만동 (5,400~13,500원)</span>
+        </div>
+        <div class="price-item">
+          <strong>힙색</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+      </div>
+
+      <h3>라탄 제품</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>라탄 크로스백(소형)</strong>
+          <span class="price">5만동~10만동 (2,700~5,400원)</span>
+        </div>
+        <div class="price-item">
+          <strong>라탄 토트백(중형)</strong>
+          <span class="price">8만동~16만동 (4,300~8,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>라탄 비치백(대형)</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>라탄 휴지케이스</strong>
+          <span class="price">3만동~7만동 (1,600~3,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>라탄 바구니</strong>
+          <span class="price">4만동~12만동 (2,200~6,500원)</span>
+        </div>
+        <div class="price-item">
+          <strong>스타벅스 라탄 가방</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 18번(1층), 해피브레드 옆 가게(1층)
+      </div>
+    </section>
 
     <section id="swim">
-  <h2>수영복/캐리어 시세표</h2>
-  <ul>
-    <li><strong>수영복:</strong> 8만동~25만동 / 남녀/아동용 모두 가능</li>
-    <li><strong>캐리어:</strong> 30만동~70만동 / 알루미늄, 확장형 등 다양 / 추천: 276번</li>
-  </ul>
-</section>
+      <h2>🏊 수영복 시세표</h2>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>여성 원피스 수영복</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>여성 비키니 세트</strong>
+          <span class="price">12만동~25만동 (6,500~13,500원)</span>
+        </div>
+        <div class="price-item">
+          <strong>남성 사각 수영복</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>남성 트렁크 수영복</strong>
+          <span class="price">10만동~18만동 (5,400~9,700원)</span>
+        </div>
+        <div class="price-item">
+          <strong>아동 수영복</strong>
+          <span class="price">8만동~15만동 (4,300~8,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>래쉬가드</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="luggage">
+      <h2>🧳 캐리어 시세표</h2>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>소형 캐리어(20인치)</strong>
+          <span class="price">30만동~40만동 (16,200~21,600원)</span>
+        </div>
+        <div class="price-item">
+          <strong>중형 캐리어(24인치)</strong>
+          <span class="price">35만동~45만동 (18,900~24,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>대형 캐리어(26-28인치)</strong>
+          <span class="price">40만동~50만동 (21,600~27,000원)</span>
+        </div>
+        <div class="price-item">
+          <strong>알루미늄 캐리어</strong>
+          <span class="price">50만동~70만동 (27,000~37,800원)</span>
+        </div>
+        <div class="price-item">
+          <strong>확장형 캐리어</strong>
+          <span class="price">추가 5만동~10만동 (2,700~5,400원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 276번(2층)
+      </div>
+      
+      <div class="warning">
+        ⚠️ <strong>구매 시 확인사항:</strong> 바퀴, 손잡이, 지퍼, 내부 잠금장치, TSA락 확인 필수
+      </div>
+    </section>
 
     <section id="food">
-  <h2>식품/과일 시세표</h2>
-  <ul>
-    <li><strong>망고, 용과, 두리안 등:</strong> 2만동~20만동 / 추천: 79번, 80번</li>
-    <li><strong>식료품(커피, 젤리, 견과류 등):</strong> 2만동~10만동 / 추천: 14번, 16번</li>
-    <li><strong>팁:</strong> 과일 손질 서비스 제공, 바꿔치기 주의</li>
-  </ul>
-</section>
+      <h2>🍎 식품/과일 시세표</h2>
+      
+      <h3>과일</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>망고(1kg)</strong>
+          <span class="price">3만동~5만동 (1,600~2,700원)</span>
+        </div>
+        <div class="price-item">
+          <strong>용과(1개)</strong>
+          <span class="price">4만동 내외 (약 2,200원)</span>
+        </div>
+        <div class="price-item">
+          <strong>애플망고(2개)</strong>
+          <span class="price">8만동 내외 (약 4,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>파인애플(1개)</strong>
+          <span class="price">2만동~4만동 (1,100~2,200원)</span>
+        </div>
+        <div class="price-item">
+          <strong>두리안(1개)</strong>
+          <span class="price">10만동~20만동 (5,400~10,800원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 79번(1층), 80번(1층)
+      </div>
+      
+      <div class="tip-box">
+        <h4>💡 과일 구매 팁</h4>
+        • 과일 손질 서비스 제공<br>
+        • 손질 후 과일 바꿔치기 주의<br>
+        • 가격은 시세에 따라 매주 변동 가능
+      </div>
 
-    <section id="fixedprice">
-  <h2>정찰제 업체 리스트</h2>
-  <p>가격 흥정 없이 믿고 살 수 있는 정찰제 매장:</p>
-  <ul>
-    <li>143번: 나이키/아디다스 정찰제</li>
-    <li>185번: 나이키/아디다스 정찰제</li>
-    <li>234번: 나이키 전문</li>
-  </ul>
-</section>
+      <h3>식료품</h3>
+      <div class="price-grid">
+        <div class="price-item">
+          <strong>망고젤리(봉지당)</strong>
+          <span class="price">2만동 내외 (약 1,100원)</span>
+        </div>
+        <div class="price-item">
+          <strong>캐슈넛(500g)</strong>
+          <span class="price">10만동 내외 (약 5,400원)</span>
+        </div>
+        <div class="price-item">
+          <strong>마카다미아(500g)</strong>
+          <span class="price">10만동 내외 (약 5,400원)</span>
+        </div>
+        <div class="price-item">
+          <strong>탑젤리/체리쉬</strong>
+          <span class="price">2만4천동 내외 (약 1,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>커피(100g)</strong>
+          <span class="price">3만동~8만동 (1,600~4,300원)</span>
+        </div>
+        <div class="price-item">
+          <strong>차(티백 세트)</strong>
+          <span class="price">4만동~10만동 (2,200~5,400원)</span>
+        </div>
+      </div>
+      
+      <div class="shop-recommend">
+        <strong>🏪 추천 매장:</strong> 14번(1층), 16번(1층)
+      </div>
+      
+      <div class="tip-box">
+        <h4>💡 식료품 구매 팁</h4>
+        • 대량 구매 시 서비스 제공하는 경우 많음
+      </div>
+    </section>
+
+    <section id="shops">
+      <h2>🏪 추천 매장 총정리</h2>
+      
+      <h3>의류/신발 (2층)</h3>
+      <div class="shop-list">
+        <div class="shop-item">
+          <div class="shop-number">143번</div>
+          나이키/아디다스 정찰제 매장<br>
+          티셔츠, 바지 전문
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">162번</div>
+          속옷 전문<br>
+          양말 등 덤으로 제공
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">169번</div>
+          양말 전문점<br>
+          10켤레 세트 판매
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">185번</div>
+          나이키/아디다스 정찰제 매장
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">234번</div>
+          나이키 바지, 티셔츠 전문
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">256번</div>
+          크록스 전문점
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">257번</div>
+          크록스, 브랜드 신발
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">259번</div>
+          크록스, 브랜드 신발
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">276번</div>
+          캐리어 전문점
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">293번</div>
+          모자, 기념품 전문
+        </div>
+      </div>
+
+      <h3>식품/기념품 (1층)</h3>
+      <div class="shop-list">
+        <div class="shop-item">
+          <div class="shop-number">14번</div>
+          식료품, 망고젤리, 견과류
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">16번</div>
+          식료품, 젤리류
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">18번</div>
+          라탄 가방, 소품 전문
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">79번</div>
+          과일 전문, 손질 서비스 제공
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">80번</div>
+          과일 전문, 저렴한 가격
+        </div>
+        <div class="shop-item">
+          <div class="shop-number">해피브레드 옆</div>
+          라탄 가방 추천 매장
+        </div>
+      </div>
+
+      <h3>정찰제 업체 리스트</h3>
+      <div class="tip-box">
+        <h4>💡 가격 흥정 없이 믿고 살 수 있는 매장</h4>
+        <ul>
+          <li><strong>143번:</strong> 나이키/아디다스 정찰제</li>
+          <li><strong>185번:</strong> 나이키/아디다스 정찰제</li>
+          <li><strong>234번:</strong> 나이키 전문</li>
+        </ul>
+      </div>
+    </section>
 
     <section id="tips">
-  <h2>쇼핑 꿀팁</h2>
-  <ul>
-    <li><strong>시세표 캡처:</strong> 휴대폰 저장 후 보여주면 바가지 줄어듬</li>
-    <li><strong>흥정 팁:</strong> 50~60%로 시작, 여러 개 구매 시 할인 요구</li>
-    <li><strong>방문 추천 시간:</strong> 오전 8시 ~ 오후 4시, 더위 피하기</li>
-    <li><strong>품질 확인:</strong> 크록스 짝짝이, 지퍼, 로고 등 꼼꼼히</li>
-    <li><strong>결제:</strong> 현금 위주, 화폐 단위 헷갈림 주의</li>
-    <li><strong>기타:</strong> 라탄가방은 해피브레드 옆, 1층은 냄새 주의</li>
-  </ul>
-  <p style="margin-top:10px; font-size:0.9em; color:#666;">※ 2025년 1~5월 기준, 환율 1,000동 = 약 54원</p>
-</section>
+      <h2>💡 쇼핑 꿀팁 완전정복</h2>
+      
+      <h3>1. 시세표 준비하기</h3>
+      <div class="tip-box">
+        <ul>
+          <li>시세표를 캡처해 휴대폰에 저장하거나 출력해서 챙겨갈 것</li>
+          <li>상인들에게 적정 가격을 알고 있다는 것을 보여주면 바가지 쓸 확률 낮아짐</li>
+          <li>시세표를 보여주면 흥정 없이도 적정 가격에 판매하는 경우가 많음</li>
+        </ul>
+      </div>
+
+      <h3>2. 흥정 전략</h3>
+      <div class="tip-box">
+        <ul>
+          <li>처음 제시가격의 <strong>50-60% 정도로 시작</strong>할 것</li>
+          <li>처음부터 너무 낮은 가격을 제시하면 흥정 자체가 어려울 수 있음</li>
+          <li>여러 개 구매 시 세트 할인 요청하기</li>
+          <li>"다른 가게에서 더 싸게 봤다"라는 말이 흥정에 효과적</li>
+          <li>웃으면서 친절하게 흥정하기</li>
+        </ul>
+      </div>
+
+      <h3>3. 방문 시간 및 동선</h3>
+      <div class="tip-box">
+        <ul>
+          <li><strong>오전 8시부터 오후 4시 사이 방문 권장</strong></li>
+          <li>오후 5시 이후엔 문 닫는 가게가 많음</li>
+          <li>층별로 쇼핑 계획을 세우는 것이 효율적</li>
+          <li>2층 의류/신발 쇼핑 후 1층 기념품/과일 구매 동선 추천</li>
+          <li>에어컨이 없어 매우 더우므로 쇼핑 중간에 휴식 필요</li>
+        </ul>
+      </div>
+
+      <h3>4. 품질 체크</h3>
+      <div class="warning">
+        <strong>⚠️ 반드시 확인해야 할 사항들:</strong>
+        <ul>
+          <li><strong>크록스:</strong> 지비츠 구멍 크기, 양발 짝짝이 확인</li>
+          <li><strong>의류:</strong> 자수 로고가 있는 제품 선택 (프린팅보다 내구성↑)</li>
+          <li><strong>캐리어:</strong> 바퀴, 손잡이, 지퍼, TSA락 확인</li>
+          <li><strong>가방:</strong> 지퍼, 스티치 라인 확인</li>
+          <li><strong>구매 전 꼭 개봉하여 확인</strong></li>
+        </ul>
+      </div>
+
+      <h3>5. 결제 관련</h3>
+      <div class="tip-box">
+        <ul>
+          <li>현금 위주로 준비 (카드 결제 어려운 곳 많음)</li>
+          <li>베트남 화폐 단위가 커서 혼동하기 쉬움 (현금 계산 주의)</li>
+          <li>환전은 공항보다 시내 환전소 이용이 유리</li>
+          <li>영수증이나 품질보증서는 발급되지 않음</li>
+        </ul>
+      </div>
+
+      <h3>6. 쇼핑 팁</h3>
+      <div class="tip-box">
+        <ul>
+          <li>한 상점에서 여러 품목 구매 시 더 큰 할인 가능</li>
+          <li>1층 꽃 시장 쪽으로 입장하면 냄새가 덜함</li>
+          <li>가방은 해피브레드 옆 라탄 가게 추천</li>
+          <li>정찰제 매장(143번, 185번) 이용하면 흥정 스트레스 감소</li>
+          <li>덥고 습하므로 편안한 복장과 충분한 물 준비</li>
+        </ul>
+      </div>
+
+      <h3>7. 냄새 피하기</h3>
+      <div class="warning">
+        <ul>
+          <li>한시장 1층은 젓갈, 장아찌 등 냄새가 심한 구역이 있음</li>
+          <li>꽃 시장 쪽 입구로 들어가 2층으로 이동하는 방법 추천</li>
+          <li>혼잡한 구역은 마스크 착용 권장</li>
+        </ul>
+      </div>
+
+      <h3>8. 상점 선택 팁</h3>
+      <div class="tip-box">
+        <ul>
+          <li>인기 있는 추천 매장은 찾기 쉽게 번호를 미리 메모해 둘 것</li>
+          <li>간판보다는 상점 번호로 찾는 것이 편리함</li>
+          <li>같은 상품도 가게마다 가격 차이가 크므로 비교 필요</li>
+          <li>한국어가 가능한 상점이 많으니 흥정 시 활용</li>
+        </ul>
+      </div>
+
+      <h3>9. 아오자이 구매 팁</h3>
+      <div class="tip-box">
+        <ul>
+          <li>맞춤 제작 시 2시간 정도 소요됨을 감안할 것</li>
+          <li>관광 일정 중 여유 있을 때 주문하고 나중에 찾기</li>
+          <li>사이즈는 조금 넉넉하게 주문하는 것이 좋음</li>
+          <li>마네킹에 전시된 디자인도 맞춤 가능</li>
+        </ul>
+      </div>
+
+      <h3>10. 실제 구매 사례</h3>
+      <div class="tip-box">
+        <h4>📝 성공 사례들</h4>
+        <ul>
+          <li><strong>나이키 운동복 라운드 반팔티:</strong> 5만동(약 2,700원)</li>
+          <li><strong>나이키 나시티:</strong> 5만동(약 2,700원)</li>
+          <li><strong>나이키 운동복 바지:</strong> 5만동(약 2,700원)</li>
+          <li><strong>브랜드 양말 10켤레:</strong> 10만동(약 5,400원)</li>
+          <li><strong>20인치 캐리어:</strong> 30만동(약 16,200원)</li>
+          <li><strong>26인치+20인치 캐리어 세트:</strong> 처음 180만동 → 흥정 후 90만동(약 48,600원)</li>
+          <li><strong>원피스:</strong> 처음 15만동 → 흥정 후 8~10만동</li>
+          <li><strong>작은 라탄 크로스백:</strong> 8만동(약 4,300원)</li>
+          <li><strong>중형 라탄백:</strong> 16만동(약 8,600원)</li>
+        </ul>
+      </div>
+    </section>
   </main>
+
   <footer>
     <iframe border="0" src="https://kr.trip.com/partners/ad/DB4059869?Allianceid=5803428&SID=154272896&trip_sub1=%ED%95%9C%EC%8B%9C%EC%9E%A5%20%ED%99%88%ED%8E%98%EC%9D%B4%EC%A7%80" style="width:468px;height:60px" frameborder="0" scrolling="no" id="DB4059869"></iframe>
-    <p style="margin-top:10px; font-size: 0.9em; color: #888;">© 2025 다낭 고수</p>
+    <div class="currency-note" style="margin-top: 20px;">
+      ※ 2025년 1~5월 기준, 환율 1,000동 = 약 54원<br>
+      방문 시기와 상점에 따라 가격 차이가 있을 수 있습니다.
+    </div>
+    <p style="margin-top:15px; font-size: 0.9em; color: #888;">© 2025 다낭 고수 - 한시장 완전정복 가이드</p>
   </footer>
+
   <script>
     function scrollToSection(id) {
       const element = document.getElementById(id);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
+
+    // 상단 네비게이션 고정 시 클릭 위치 조정
+    document.addEventListener('DOMContentLoaded', function() {
+      const navButtons = document.querySelectorAll('nav button');
+      navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // 활성화된 버튼 스타일 (선택사항)
+          navButtons.forEach(btn => btn.style.background = 'white');
+          this.style.background = '#f0f0f0';
+        });
+      });
+    });
   </script>
 </body>
 </html>
