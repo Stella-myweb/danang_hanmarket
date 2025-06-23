@@ -935,7 +935,7 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
       });
     });
   </script>
-	<!-- 팝업 광고 스타일 및 기능 -->
+<!-- 팝업 광고 스타일 및 기능 -->
 <style>
 .popup-overlay {
   position: fixed;
@@ -1014,18 +1014,35 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   transform: scale(1.1);
 }
 
+.popup-ad-container {
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.popup-ad-container:hover {
+  transform: scale(1.02);
+}
+
 .popup-ad-frame {
   width: 100%;
   height: 250px;
   border: none;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  pointer-events: none; /* iframe 클릭 무시 */
 }
 
-.popup-ad-frame:hover {
-  transform: scale(1.02);
+.popup-ad-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .popup-benefits {
@@ -1088,7 +1105,7 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
       ✨ 지금 클릭하면 최대 70% 할인! ✨
     </div>
     
-    <div id="popup-ad-container">
+    <div id="popup-ad-container" class="popup-ad-container">
       <!-- 광고가 여기에 삽입됩니다 -->
     </div>
     
@@ -1104,17 +1121,27 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
 </div>
 
 <script>
-// 광고 배열
+// 광고 정보 배열 (URL 직접 추출)
 const ads = [
-  '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-1"></iframe>',
-  '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-2"></iframe>',
-  '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-3"></iframe>'
+  {
+    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-1"></iframe>',
+    url: 'https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1='
+  },
+  {
+    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-2"></iframe>',
+    url: 'https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1='
+  },
+  {
+    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-3"></iframe>',
+    url: 'https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1='
+  }
 ];
 
 let currentAdIndex = 0;
 let popupTimer;
 let countdownTimer;
 let isPopupVisible = false;
+let currentAdUrl = '';
 
 // 클릭율 높이기 위한 랜덤 메시지
 const urgencyMessages = [
@@ -1137,8 +1164,12 @@ function showPopup() {
   const randomMessage = urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)];
   benefitsElements[0].innerHTML = randomMessage;
   
-  // 현재 광고 삽입
-  container.innerHTML = ads[currentAdIndex];
+  // 현재 광고 정보 가져오기
+  const currentAd = ads[currentAdIndex];
+  currentAdUrl = currentAd.url;
+  
+  // 광고 삽입 (iframe + 클릭 오버레이)
+  container.innerHTML = currentAd.iframe + '<div class="popup-ad-overlay" onclick="openAdDirectly()"></div>';
   
   // 다음 광고 인덱스 설정
   currentAdIndex = (currentAdIndex + 1) % ads.length;
@@ -1149,36 +1180,12 @@ function showPopup() {
   
   // 카운트다운 시작
   startCountdown();
-  
-  // 광고 iframe에 클릭 추적 이벤트 추가
-  setTimeout(() => {
-    const iframe = container.querySelector('iframe');
-    if (iframe) {
-      iframe.style.cursor = 'pointer';
-      
-      // iframe 클릭 시뮬레이션을 위한 오버레이
-      const clickOverlay = document.createElement('div');
-      clickOverlay.style.cssText = `
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-        cursor: pointer;
-        z-index: 1;
-      `;
-      
-      iframe.parentNode.style.position = 'relative';
-      iframe.parentNode.appendChild(clickOverlay);
-      
-      clickOverlay.addEventListener('click', function() {
-        // 실제 광고 링크로 이동 (새 창)
-        window.open(iframe.src, '_blank');
-        closePopup();
-      });
-    }
-  }, 100);
+}
+
+// 광고 직접 열기 함수
+function openAdDirectly() {
+  window.open(currentAdUrl, '_blank');
+  closePopup();
 }
 
 // 카운트다운 함수
@@ -1212,22 +1219,18 @@ function closePopup() {
 function handleFakeClose() {
   // 70% 확률로 광고로 이동, 30% 확률로 실제 닫기
   if (Math.random() > 0.3) {
-    // 광고 클릭 처리
-    const iframe = document.querySelector('#popup-ad-container iframe');
-    if (iframe) {
-      window.open(iframe.src, '_blank');
-    }
+    openAdDirectly();
+  } else {
+    closePopup();
   }
-  closePopup();
 }
 
 // 모바일에서 터치 이벤트 최적화
 function addMobileOptimization() {
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    // 모바일에서는 더 큰 터치 영역 제공
     const style = document.createElement('style');
     style.textContent = `
-      .popup-ad-frame {
+      .popup-ad-container {
         min-height: 280px;
       }
       .popup-close {
@@ -1239,6 +1242,9 @@ function addMobileOptimization() {
         width: 70px;
         height: 70px;
       }
+      .popup-ad-overlay {
+        touch-action: manipulation;
+      }
     `;
     document.head.appendChild(style);
   }
@@ -1248,12 +1254,10 @@ function addMobileOptimization() {
 document.getElementById('popup-overlay').addEventListener('click', function(e) {
   if (e.target === this) {
     if (Math.random() > 0.5) {
-      const iframe = document.querySelector('#popup-ad-container iframe');
-      if (iframe) {
-        window.open(iframe.src, '_blank');
-      }
+      openAdDirectly();
+    } else {
+      closePopup();
     }
-    closePopup();
   }
 });
 
@@ -1266,19 +1270,18 @@ function startPopupTimer() {
 window.addEventListener('load', function() {
   addMobileOptimization();
   
-  // 첫 팝업은 페이지 로드 8초 후 (사용자가 어느 정도 페이지를 본 후)
+  // 첫 팝업은 페이지 로드 8초 후
   setTimeout(() => {
     showPopup();
     startPopupTimer();
   }, 8000);
 });
 
-// 스크롤 시 팝업 표시 확률 증가
+// 스크롤 시 팝업 표시
 let scrollTriggered = false;
 window.addEventListener('scroll', function() {
   if (!scrollTriggered && window.scrollY > 500) {
     scrollTriggered = true;
-    // 스크롤 후 3초 뒤 팝업 (한 번만)
     setTimeout(() => {
       if (!isPopupVisible) {
         showPopup();
@@ -1302,7 +1305,7 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
-</script> 
+</script>
 	
 </body>
 </html>
