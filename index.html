@@ -1146,73 +1146,37 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
 </div>
 
 <script>
-// 광고 정보 배열
+// 광고 정보 배열 (직접 링크로 수정)
 const ads = [
   {
     content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148524"></iframe>',
-    url: 'https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1='
+    url: 'https://kr.trip.com/?locale=ko-kr&curr=krw',
+    type: 'trip'
   },
   {
-    content: `<div id="popup-adgshp-643028301"></div>
-    <script type="text/javascript">
-    setTimeout(function() {
-      if (typeof AgdDynamic !== 'undefined') {
-        var stg = new Object(); 
-        stg.crt="2325807147370";
-        stg.version="1.05"; 
-        stg.id=stg.name="popup-adgshp-643028301"; 
-        stg.Width="300px"; 
-        stg.Height="250px";
-        stg.RefKey="YuFR5r0FaSlhzhJC3zKpTQ==";
-        stg.AutoScrollSpeed=3000;
-        stg.AutoScrollToggle=true;
-        stg.SearchboxShow=false;
-        stg.DiscountedOnly=false;
-        stg.Layout="squaredynamic"; 
-        stg.Language="ko-kr";
-        stg.ApiKey="c29d7948-9245-4742-9999-587d6e043d8f";
-        stg.Cid="1935109";  
-        stg.City="16440";
-        stg.Currency="KRW";
-        stg.OverideConf=false; 
-        new AgdDynamic('popup-adgshp-643028301').initialize(stg);
-      }
-    }, 500);
-    <\/script>`,
-    url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html'
+    content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #0066cc 0%, #004499 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif;">
+      <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">🏨 Agoda</div>
+      <div style="font-size: 18px; margin-bottom: 15px;">다낭 특가 호텔</div>
+      <div style="font-size: 14px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-bottom: 10px;">최대 70% 할인</div>
+      <div style="font-size: 12px; opacity: 0.9;">지금 예약하고 혜택 받기!</div>
+    </div>`,
+    url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html?cid=1935109',
+    type: 'agoda'
   },
   {
     content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148251"></iframe>',
-    url: 'https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1='
+    url: 'https://kr.trip.com/flights/?locale=ko-kr&curr=krw',
+    type: 'trip'
   },
   {
-    content: `<div id="popup-adgshp622613328"></div>
-    <script type="text/javascript">
-    setTimeout(function() {
-      if (typeof AgdDynamic !== 'undefined') {
-        var stg = new Object(); 
-        stg.crt="1089331011964";
-        stg.version="1.05"; 
-        stg.id=stg.name="popup-adgshp622613328"; 
-        stg.Width="300px"; 
-        stg.Height="250px";
-        stg.RefKey="ESFz+79hS44gg4nn0UyBCw==";
-        stg.AutoScrollSpeed=3000;
-        stg.AutoScrollToggle=true;
-        stg.SearchboxShow=false;
-        stg.DiscountedOnly=true;
-        stg.Layout="squaredynamic"; 
-        stg.Language="ko-kr";
-        stg.ApiKey="c29d7948-9245-4742-9999-587d6e043d8f";
-        stg.Cid="1935109";  
-        stg.Poi="142798";
-        stg.Currency="KRW";
-        stg.OverideConf=false; 
-        new AgdDynamic('popup-adgshp622613328').initialize(stg);
-      }
-    }, 500);
-    <\/script>`,
-    url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html'
+    content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif;">
+      <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">🏖️ Agoda</div>
+      <div style="font-size: 18px; margin-bottom: 15px;">다낭 리조트</div>
+      <div style="font-size: 14px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-bottom: 10px;">특가 이벤트</div>
+      <div style="font-size: 12px; opacity: 0.9;">해변가 최고 리조트 예약!</div>
+    </div>`,
+    url: 'https://www.agoda.com/ko-kr/search?city=16440&cid=1935109',
+    type: 'agoda'
   }
 ];
 
@@ -1221,6 +1185,7 @@ let popupTimer;
 let countdownTimer;
 let isPopupVisible = false;
 let currentAdUrl = '';
+let currentAdType = '';
 let closeCount = 0;
 let isPopupSuppressed = false;
 let suppressEndTime = 0;
@@ -1238,16 +1203,6 @@ const urgencyMessages = [
   "💰 회원가입 즉시 쿠폰 지급! 💰"
 ];
 
-// Agoda 스크립트 로드
-function loadAgodaScript() {
-  if (!document.querySelector('script[src*="init-dynamic_v8.min.js"]')) {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = '//cdn0.agoda.net/images/sherpa/js/init-dynamic_v8.min.js';
-    document.head.appendChild(script);
-  }
-}
-
 // 사용자 행동 분석
 function trackUserInteraction() {
   userInteractionCount++;
@@ -1255,7 +1210,6 @@ function trackUserInteraction() {
 
 // 적응형 팝업 간격 계산
 function getAdaptiveInterval() {
-  // 사용자 상호작용이 많을수록 간격을 늘림
   const baseInterval = 60000; // 기본 60초
   const interactionFactor = Math.min(userInteractionCount * 10000, 120000); // 최대 2분 추가
   return baseInterval + interactionFactor;
@@ -1265,17 +1219,14 @@ function getAdaptiveInterval() {
 function shouldShowPopup() {
   const now = Date.now();
   
-  // 억제 시간 확인
   if (isPopupSuppressed && now < suppressEndTime) {
     return false;
   }
   
-  // 최소 간격 확인 (30초)
   if (now - lastPopupTime < 30000) {
     return false;
   }
   
-  // 이미 팝업이 표시 중인 경우
   if (isPopupVisible) {
     return false;
   }
@@ -1292,13 +1243,11 @@ function showPopup() {
   const benefitsElements = document.querySelectorAll('.popup-benefits');
   const closeIndicator = document.getElementById('close-count-indicator');
   
-  // 억제 상태 해제
   if (isPopupSuppressed) {
     isPopupSuppressed = false;
     closeCount = 0;
   }
   
-  // 닫기 카운트 표시 업데이트
   if (closeCount > 0) {
     closeIndicator.style.display = 'flex';
     closeIndicator.textContent = 2 - closeCount;
@@ -1306,33 +1255,57 @@ function showPopup() {
     closeIndicator.style.display = 'none';
   }
   
-  // 랜덤 메시지로 변경
   const randomMessage = urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)];
   benefitsElements[0].innerHTML = randomMessage;
   
   // 현재 광고 정보 가져오기
   const currentAd = ads[currentAdIndex];
   currentAdUrl = currentAd.url;
+  currentAdType = currentAd.type;
   
   // 광고 삽입
   container.innerHTML = currentAd.content + '<div class="popup-ad-overlay" onclick="openAdDirectly()"></div>';
   
-  // 다음 광고 인덱스 설정
   currentAdIndex = (currentAdIndex + 1) % ads.length;
   
-  // 팝업 표시
   overlay.style.display = 'flex';
   isPopupVisible = true;
   lastPopupTime = Date.now();
   
-  // 카운트다운 시작
   startCountdown();
 }
 
-// 광고 직접 열기 함수
+// 광고 직접 열기 함수 (한 번 클릭으로 최종 목적지 이동)
 function openAdDirectly() {
-  window.open(currentAdUrl, '_blank');
+  let finalUrl = currentAdUrl;
+  
+  // Trip.com의 경우 파트너 링크를 통해 직접 메인 페이지로
+  if (currentAdType === 'trip') {
+    // 다양한 Trip.com 페이지로 랜덤 이동
+    const tripUrls = [
+      'https://kr.trip.com/?locale=ko-kr&curr=krw',
+      'https://kr.trip.com/flights/?locale=ko-kr&curr=krw',
+      'https://kr.trip.com/hotels/?locale=ko-kr&curr=krw',
+      'https://kr.trip.com/packages/?locale=ko-kr&curr=krw'
+    ];
+    finalUrl = tripUrls[Math.floor(Math.random() * tripUrls.length)];
+  }
+  
+  // Agoda의 경우 다낭 관련 페이지로 직접 이동
+  if (currentAdType === 'agoda') {
+    const agodaUrls = [
+      'https://www.agoda.com/ko-kr/city/da-nang-vn.html?cid=1935109',
+      'https://www.agoda.com/ko-kr/search?city=16440&cid=1935109',
+      'https://www.agoda.com/ko-kr/hoi-an-ancient-house-village-resort-and-spa/hotel/da-nang-vn.html?cid=1935109',
+      'https://www.agoda.com/ko-kr/grand-mercure-danang/hotel/da-nang-vn.html?cid=1935109'
+    ];
+    finalUrl = agodaUrls[Math.floor(Math.random() * agodaUrls.length)];
+  }
+  
+  // 새 창에서 열기
+  window.open(finalUrl, '_blank');
   closePopup();
+  
   // 클릭 시 다음 팝업 간격 증가
   userInteractionCount += 5;
 }
@@ -1363,17 +1336,14 @@ function closePopup() {
     clearInterval(countdownTimer);
   }
   
-  // 닫기 횟수 증가
   closeCount++;
   trackUserInteraction();
   
-  // 2번 닫으면 30초간 억제
   if (closeCount >= 2) {
     isPopupSuppressed = true;
     suppressEndTime = Date.now() + 30000; // 30초
     closeCount = 0;
     
-    // 사용자에게 친화적인 알림 (선택사항)
     setTimeout(() => {
       console.log('잠시 휴식 중... 곧 다시 특가 정보를 제공해드릴게요! 😊');
     }, 1000);
@@ -1382,7 +1352,6 @@ function closePopup() {
 
 // 가짜 닫기 버튼
 function handleFakeClose() {
-  // 첫 번째 닫기는 50% 확률로 광고 이동
   if (closeCount === 0 && Math.random() > 0.5) {
     openAdDirectly();
   } else {
@@ -1419,7 +1388,6 @@ document.addEventListener('scroll', trackUserInteraction);
 // 팝업 외부 클릭 처리
 document.getElementById('popup-overlay').addEventListener('click', function(e) {
   if (e.target === this) {
-    // 첫 번째 외부 클릭은 30% 확률로 광고 이동
     if (closeCount === 0 && Math.random() > 0.7) {
       openAdDirectly();
     } else {
@@ -1439,10 +1407,8 @@ function startAdaptivePopupTimer() {
 
 // 페이지 로드 후 설정
 window.addEventListener('load', function() {
-  loadAgodaScript();
   addMobileOptimization();
   
-  // 첫 팝업은 페이지 로드 15초 후 (사용자가 충분히 내용을 본 후)
   setTimeout(() => {
     showPopup();
     startAdaptivePopupTimer();
@@ -1469,7 +1435,7 @@ document.addEventListener('mouseleave', function(e) {
   }
 });
 
-// ESC 키 처리 (더 관대하게)
+// ESC 키 처리
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && isPopupVisible) {
     if (closeCount === 0 || Math.random() > 0.3) {
@@ -1478,10 +1444,9 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// 페이지 가시성 변경 시 (탭 전환 등)
+// 페이지 가시성 변경 시
 document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
-    // 사용자가 탭을 벗어남
     userInteractionCount++;
   }
 });
