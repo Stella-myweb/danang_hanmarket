@@ -968,6 +968,12 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   100% { transform: scale(1); }
 }
 
+/* 새로운 애니메이션 추가 */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}
+
 .popup-content {
   position: relative;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -1146,13 +1152,18 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
 </div>
 
 <script>
-// 광고 정보 배열 (직접 링크로 수정)
+// ========================================
+// === 광고 정보 배열 (최신 버전) ===
+// ========================================
 const ads = [
+  // === 기존 Trip.com 일반 광고 ===
   {
     content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148524"></iframe>',
     url: 'https://kr.trip.com/?locale=ko-kr&curr=krw',
     type: 'trip'
   },
+  
+  // === 커스텀 Agoda 광고 ===
   {
     content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #0066cc 0%, #004499 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif;">
       <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">🏨 Agoda</div>
@@ -1163,11 +1174,15 @@ const ads = [
     url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html?cid=1935109',
     type: 'agoda'
   },
+  
+  // === 기존 Trip.com 일반 광고 2 ===
   {
     content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148251"></iframe>',
     url: 'https://kr.trip.com/flights/?locale=ko-kr&curr=krw',
     type: 'trip'
   },
+  
+  // === 커스텀 Agoda 광고 2 ===
   {
     content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif;">
       <div style="font-size: 24px; font-weight: bold; margin-bottom: 10px;">🏖️ Agoda</div>
@@ -1177,9 +1192,82 @@ const ads = [
     </div>`,
     url: 'https://www.agoda.com/ko-kr/search?city=16440&cid=1935109',
     type: 'agoda'
+  },
+  
+  // ========================================
+  // === 새로운 다낭 호텔 특가 광고 시작 ===
+  // ========================================
+  
+  // === 포포인츠 바이 쉐라톤 다낭 10% 할인 ===
+  {
+    content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #1a365d 0%, #2d5aa0 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">
+      <!-- 배경 패턴 -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 100 100\\"><circle cx=\\"50\\" cy=\\"50\\" r=\\"2\\" fill=\\"%23ffffff\\" opacity=\\"0.1\\"/></svg>') repeat; opacity: 0.3;"></div>
+      
+      <!-- 할인 배지 -->
+      <div style="position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; animation: pulse 2s infinite;">10% OFF</div>
+      
+      <!-- 메인 콘텐츠 -->
+      <div style="z-index: 2; position: relative;">
+        <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">🏨 쉐라톤</div>
+        <div style="font-size: 16px; margin-bottom: 12px; line-height: 1.3;">포포인츠 바이 쉐라톤<br>다낭</div>
+        <div style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 15px; margin-bottom: 8px; backdrop-filter: blur(10px);">✨ 특가 10% 할인 ✨</div>
+        <div style="font-size: 11px; opacity: 0.9;">5성급 럭셔리 호텔 최저가!</div>
+        <div style="font-size: 10px; margin-top: 5px; opacity: 0.8;">👆 지금 클릭하고 혜택받기</div>
+      </div>
+    </div>`,
+    url: 'https://www.trip.com/t/GrgJZ1SpLQ2',
+    type: 'hotel_special'
+  },
+  
+  // === 퓨전리조트 신상 호텔 10% 할인 ===
+  {
+    content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #0f3460 0%, #e94560 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">
+      <!-- 신상 뱃지 -->
+      <div style="position: absolute; top: 8px; left: 8px; background: #ffa726; color: white; padding: 4px 8px; border-radius: 12px; font-size: 9px; font-weight: bold;">NEW OPEN</div>
+      
+      <!-- 할인 배지 -->
+      <div style="position: absolute; top: 8px; right: 8px; background: #ff4757; color: white; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; animation: pulse 2s infinite;">10% 할인</div>
+      
+      <!-- 메인 콘텐츠 -->
+      <div style="z-index: 2; position: relative;">
+        <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">🌺 퓨전리조트</div>
+        <div style="font-size: 15px; margin-bottom: 12px; line-height: 1.3;">다낭 신상 호텔<br>그랜드 오픈!</div>
+        <div style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 15px; margin-bottom: 8px; backdrop-filter: blur(10px);">🎉 오픈 기념 10% 할인</div>
+        <div style="font-size: 11px; opacity: 0.9;">최신 시설! 완전 새 호텔!</div>
+        <div style="font-size: 10px; margin-top: 5px; opacity: 0.8; animation: blink 1.5s infinite;">⚡ 한정 특가! 놓치면 후회!</div>
+      </div>
+    </div>`,
+    url: 'https://www.trip.com/t/U2gODTapLQ2',
+    type: 'hotel_special'
+  },
+  
+  // === 스텔라 마리스 비치 다낭 최저가 ===
+  {
+    content: `<div style="width: 300px; height: 250px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">
+      <!-- 웨이브 배경 효과 -->
+      <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50% 50% 0 0; transform: scale(1.5);"></div>
+      
+      <!-- 최저가 배지 -->
+      <div style="position: absolute; top: 10px; right: 10px; background: #00d2ff; color: white; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">최저가 보장</div>
+      
+      <!-- 메인 콘텐츠 -->
+      <div style="z-index: 2; position: relative;">
+        <div style="font-size: 20px; font-weight: bold; margin-bottom: 8px;">🏖️ 스텔라 마리스</div>
+        <div style="font-size: 15px; margin-bottom: 12px; line-height: 1.3;">비치 다낭<br>해변가 최고 위치!</div>
+        <div style="font-size: 12px; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 15px; margin-bottom: 8px; backdrop-filter: blur(10px);">🌊 바다 바로 앞 최저가</div>
+        <div style="font-size: 11px; opacity: 0.9;">오션뷰 확정! 가성비 최고!</div>
+        <div style="font-size: 10px; margin-top: 5px; opacity: 0.8; color: #ffeb3b;">💎 예약 폭주! 서둘러 예약하세요</div>
+      </div>
+    </div>`,
+    url: 'https://www.trip.com/t/9AxruKfpLQ2',
+    type: 'hotel_special'
   }
 ];
 
+// ========================================
+// === 팝업 시스템 변수들 ===
+// ========================================
 let currentAdIndex = 0;
 let popupTimer;
 let countdownTimer;
@@ -1192,7 +1280,9 @@ let suppressEndTime = 0;
 let userInteractionCount = 0;
 let lastPopupTime = 0;
 
-// 클릭율 높이기 위한 랜덤 메시지
+// ========================================
+// === 클릭율 높이기 위한 랜덤 메시지 ===
+// ========================================
 const urgencyMessages = [
   "🔥 지금 클릭하면 최대 70% 할인! 🔥",
   "⚡ 마지막 기회! 특가 여행 상품 ⚡",
@@ -1200,8 +1290,14 @@ const urgencyMessages = [
   "🎯 오늘만! 깜짝 특가 이벤트 🎯",
   "🌟 베스트셀러 여행상품 특가! 🌟",
   "🎁 선착순 100명 특별혜택! 🎁",
-  "💰 회원가입 즉시 쿠폰 지급! 💰"
+  "💰 회원가입 즉시 쿠폰 지급! 💰",
+  "🏨 다낭 호텔 초특가! 🏨",
+  "✈️ 항공+호텔 패키지 할인! ✈️"
 ];
+
+// ========================================
+// === 사용자 행동 분석 및 적응형 시스템 ===
+// ========================================
 
 // 사용자 행동 분석
 function trackUserInteraction() {
@@ -1219,20 +1315,27 @@ function getAdaptiveInterval() {
 function shouldShowPopup() {
   const now = Date.now();
   
+  // 억제 시간 확인
   if (isPopupSuppressed && now < suppressEndTime) {
     return false;
   }
   
+  // 최소 간격 확인 (30초)
   if (now - lastPopupTime < 30000) {
     return false;
   }
   
+  // 이미 팝업이 표시 중인 경우
   if (isPopupVisible) {
     return false;
   }
   
   return true;
 }
+
+// ========================================
+// === 팝업 표시 및 제어 함수들 ===
+// ========================================
 
 // 팝업 표시 함수
 function showPopup() {
@@ -1243,11 +1346,13 @@ function showPopup() {
   const benefitsElements = document.querySelectorAll('.popup-benefits');
   const closeIndicator = document.getElementById('close-count-indicator');
   
+  // 억제 상태 해제
   if (isPopupSuppressed) {
     isPopupSuppressed = false;
     closeCount = 0;
   }
   
+  // 닫기 카운트 표시 업데이트
   if (closeCount > 0) {
     closeIndicator.style.display = 'flex';
     closeIndicator.textContent = 2 - closeCount;
@@ -1255,6 +1360,7 @@ function showPopup() {
     closeIndicator.style.display = 'none';
   }
   
+  // 랜덤 메시지로 변경
   const randomMessage = urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)];
   benefitsElements[0].innerHTML = randomMessage;
   
@@ -1266,22 +1372,26 @@ function showPopup() {
   // 광고 삽입
   container.innerHTML = currentAd.content + '<div class="popup-ad-overlay" onclick="openAdDirectly()"></div>';
   
+  // 다음 광고 인덱스 설정
   currentAdIndex = (currentAdIndex + 1) % ads.length;
   
+  // 팝업 표시
   overlay.style.display = 'flex';
   isPopupVisible = true;
   lastPopupTime = Date.now();
   
+  // 카운트다운 시작
   startCountdown();
 }
 
-// 광고 직접 열기 함수 (한 번 클릭으로 최종 목적지 이동)
+// ========================================
+// === 광고 클릭 처리 (한 번 클릭으로 직접 이동) ===
+// ========================================
 function openAdDirectly() {
   let finalUrl = currentAdUrl;
   
   // Trip.com의 경우 파트너 링크를 통해 직접 메인 페이지로
   if (currentAdType === 'trip') {
-    // 다양한 Trip.com 페이지로 랜덤 이동
     const tripUrls = [
       'https://kr.trip.com/?locale=ko-kr&curr=krw',
       'https://kr.trip.com/flights/?locale=ko-kr&curr=krw',
@@ -1302,6 +1412,13 @@ function openAdDirectly() {
     finalUrl = agodaUrls[Math.floor(Math.random() * agodaUrls.length)];
   }
   
+  // === 새로운 호텔 특가 광고 처리 ===
+  // 호텔 특가의 경우 직접 제공된 링크로 이동
+  if (currentAdType === 'hotel_special') {
+    // currentAdUrl을 그대로 사용 (이미 완전한 Trip.com 특가 링크)
+    finalUrl = currentAdUrl;
+  }
+  
   // 새 창에서 열기
   window.open(finalUrl, '_blank');
   closePopup();
@@ -1309,6 +1426,10 @@ function openAdDirectly() {
   // 클릭 시 다음 팝업 간격 증가
   userInteractionCount += 5;
 }
+
+// ========================================
+// === 팝업 제어 함수들 ===
+// ========================================
 
 // 카운트다운 함수
 function startCountdown() {
@@ -1326,7 +1447,7 @@ function startCountdown() {
   }, 1000);
 }
 
-// 팝업 닫기 함수
+// 팝업 닫기 함수 (2번 닫으면 30초 휴식)
 function closePopup() {
   const overlay = document.getElementById('popup-overlay');
   overlay.style.display = 'none';
@@ -1336,22 +1457,26 @@ function closePopup() {
     clearInterval(countdownTimer);
   }
   
+  // 닫기 횟수 증가
   closeCount++;
   trackUserInteraction();
   
+  // 2번 닫으면 30초간 억제
   if (closeCount >= 2) {
     isPopupSuppressed = true;
     suppressEndTime = Date.now() + 30000; // 30초
     closeCount = 0;
     
+    // 사용자에게 친화적인 알림
     setTimeout(() => {
       console.log('잠시 휴식 중... 곧 다시 특가 정보를 제공해드릴게요! 😊');
     }, 1000);
   }
 }
 
-// 가짜 닫기 버튼
+// 가짜 닫기 버튼 (실제로는 광고 클릭)
 function handleFakeClose() {
+  // 첫 번째 닫기는 50% 확률로 광고 이동
   if (closeCount === 0 && Math.random() > 0.5) {
     openAdDirectly();
   } else {
@@ -1359,7 +1484,9 @@ function handleFakeClose() {
   }
 }
 
-// 모바일 최적화
+// ========================================
+// === 모바일 최적화 ===
+// ========================================
 function addMobileOptimization() {
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     const style = document.createElement('style');
@@ -1380,6 +1507,10 @@ function addMobileOptimization() {
     document.head.appendChild(style);
   }
 }
+
+// ========================================
+// === 이벤트 리스너 및 초기화 ===
+// ========================================
 
 // 사용자 행동 추적 이벤트
 document.addEventListener('click', trackUserInteraction);
@@ -1409,6 +1540,7 @@ function startAdaptivePopupTimer() {
 window.addEventListener('load', function() {
   addMobileOptimization();
   
+  // 첫 팝업은 페이지 로드 15초 후 (사용자가 충분히 내용을 본 후)
   setTimeout(() => {
     showPopup();
     startAdaptivePopupTimer();
@@ -1428,14 +1560,14 @@ window.addEventListener('scroll', function() {
   }
 });
 
-// Exit intent (데스크톱)
+// Exit intent (데스크톱에서 마우스가 페이지를 벗어날 때)
 document.addEventListener('mouseleave', function(e) {
   if (e.clientY <= 0 && shouldShowPopup()) {
     showPopup();
   }
 });
 
-// ESC 키 처리
+// ESC 키 처리 (더 관대하게)
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && isPopupVisible) {
     if (closeCount === 0 || Math.random() > 0.3) {
@@ -1444,13 +1576,13 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// 페이지 가시성 변경 시
+// 페이지 가시성 변경 시 (탭 전환 등)
 document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
+    // 사용자가 탭을 벗어남
     userInteractionCount++;
   }
 });
 </script>
-	
 </body>
 </html>
