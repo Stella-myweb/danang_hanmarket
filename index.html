@@ -1021,6 +1021,8 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0,0,0,0.3);
   transition: transform 0.3s ease;
+  background: white;
+  min-height: 250px;
 }
 
 .popup-ad-container:hover {
@@ -1031,7 +1033,7 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   width: 100%;
   height: 250px;
   border: none;
-  pointer-events: none; /* iframe 클릭 무시 */
+  pointer-events: none;
 }
 
 .popup-ad-overlay {
@@ -1080,14 +1082,34 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   z-index: 9999;
 }
 
+.close-count-indicator {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  background: #ff6b35;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   .popup-content {
-    max-width: 300px;
+    max-width: 320px;
     padding: 20px;
   }
   
   .popup-header {
     font-size: 16px;
+  }
+  
+  .popup-ad-container {
+    min-height: 280px;
   }
 }
 </style>
@@ -1095,7 +1117,10 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
 <div id="popup-overlay" class="popup-overlay">
   <div class="popup-content">
     <div class="fake-close-area" onclick="handleFakeClose()"></div>
-    <button class="popup-close" onclick="closePopup()">×</button>
+    <button class="popup-close" onclick="closePopup()">
+      ×
+      <div class="close-count-indicator" id="close-count-indicator" style="display: none;">2</div>
+    </button>
     
     <div class="popup-header">
       🎉 특가 여행 상품! 🎉
@@ -1115,25 +1140,79 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
     </div>
     
     <div class="popup-timer" id="popup-timer">
-      ⏰ 다음 특가까지: <span id="countdown">30</span>초
+      ⏰ 다음 특가까지: <span id="countdown">60</span>초
     </div>
   </div>
 </div>
 
 <script>
-// 광고 정보 배열 (URL 직접 추출)
+// 광고 정보 배열
 const ads = [
   {
-    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-1"></iframe>',
+    content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148524"></iframe>',
+    url: 'https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1='
+  },
+  {
+    content: `<div id="popup-adgshp-643028301"></div>
+    <script type="text/javascript">
+    setTimeout(function() {
+      if (typeof AgdDynamic !== 'undefined') {
+        var stg = new Object(); 
+        stg.crt="2325807147370";
+        stg.version="1.05"; 
+        stg.id=stg.name="popup-adgshp-643028301"; 
+        stg.Width="300px"; 
+        stg.Height="250px";
+        stg.RefKey="YuFR5r0FaSlhzhJC3zKpTQ==";
+        stg.AutoScrollSpeed=3000;
+        stg.AutoScrollToggle=true;
+        stg.SearchboxShow=false;
+        stg.DiscountedOnly=false;
+        stg.Layout="squaredynamic"; 
+        stg.Language="ko-kr";
+        stg.ApiKey="c29d7948-9245-4742-9999-587d6e043d8f";
+        stg.Cid="1935109";  
+        stg.City="16440";
+        stg.Currency="KRW";
+        stg.OverideConf=false; 
+        new AgdDynamic('popup-adgshp-643028301').initialize(stg);
+      }
+    }, 500);
+    <\/script>`,
+    url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html'
+  },
+  {
+    content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148251"></iframe>',
     url: 'https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1='
   },
   {
-    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-2"></iframe>',
-    url: 'https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1='
-  },
-  {
-    iframe: '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-3"></iframe>',
-    url: 'https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1='
+    content: `<div id="popup-adgshp622613328"></div>
+    <script type="text/javascript">
+    setTimeout(function() {
+      if (typeof AgdDynamic !== 'undefined') {
+        var stg = new Object(); 
+        stg.crt="1089331011964";
+        stg.version="1.05"; 
+        stg.id=stg.name="popup-adgshp622613328"; 
+        stg.Width="300px"; 
+        stg.Height="250px";
+        stg.RefKey="ESFz+79hS44gg4nn0UyBCw==";
+        stg.AutoScrollSpeed=3000;
+        stg.AutoScrollToggle=true;
+        stg.SearchboxShow=false;
+        stg.DiscountedOnly=true;
+        stg.Layout="squaredynamic"; 
+        stg.Language="ko-kr";
+        stg.ApiKey="c29d7948-9245-4742-9999-587d6e043d8f";
+        stg.Cid="1935109";  
+        stg.Poi="142798";
+        stg.Currency="KRW";
+        stg.OverideConf=false; 
+        new AgdDynamic('popup-adgshp622613328').initialize(stg);
+      }
+    }, 500);
+    <\/script>`,
+    url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html'
   }
 ];
 
@@ -1142,6 +1221,11 @@ let popupTimer;
 let countdownTimer;
 let isPopupVisible = false;
 let currentAdUrl = '';
+let closeCount = 0;
+let isPopupSuppressed = false;
+let suppressEndTime = 0;
+let userInteractionCount = 0;
+let lastPopupTime = 0;
 
 // 클릭율 높이기 위한 랜덤 메시지
 const urgencyMessages = [
@@ -1149,16 +1233,78 @@ const urgencyMessages = [
   "⚡ 마지막 기회! 특가 여행 상품 ⚡",
   "💎 VIP 전용 할인가 제공! 💎",
   "🎯 오늘만! 깜짝 특가 이벤트 🎯",
-  "🌟 베스트셀러 여행상품 특가! 🌟"
+  "🌟 베스트셀러 여행상품 특가! 🌟",
+  "🎁 선착순 100명 특별혜택! 🎁",
+  "💰 회원가입 즉시 쿠폰 지급! 💰"
 ];
+
+// Agoda 스크립트 로드
+function loadAgodaScript() {
+  if (!document.querySelector('script[src*="init-dynamic_v8.min.js"]')) {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '//cdn0.agoda.net/images/sherpa/js/init-dynamic_v8.min.js';
+    document.head.appendChild(script);
+  }
+}
+
+// 사용자 행동 분석
+function trackUserInteraction() {
+  userInteractionCount++;
+}
+
+// 적응형 팝업 간격 계산
+function getAdaptiveInterval() {
+  // 사용자 상호작용이 많을수록 간격을 늘림
+  const baseInterval = 60000; // 기본 60초
+  const interactionFactor = Math.min(userInteractionCount * 10000, 120000); // 최대 2분 추가
+  return baseInterval + interactionFactor;
+}
+
+// 팝업 표시 조건 확인
+function shouldShowPopup() {
+  const now = Date.now();
+  
+  // 억제 시간 확인
+  if (isPopupSuppressed && now < suppressEndTime) {
+    return false;
+  }
+  
+  // 최소 간격 확인 (30초)
+  if (now - lastPopupTime < 30000) {
+    return false;
+  }
+  
+  // 이미 팝업이 표시 중인 경우
+  if (isPopupVisible) {
+    return false;
+  }
+  
+  return true;
+}
 
 // 팝업 표시 함수
 function showPopup() {
-  if (isPopupVisible) return;
+  if (!shouldShowPopup()) return;
   
   const overlay = document.getElementById('popup-overlay');
   const container = document.getElementById('popup-ad-container');
   const benefitsElements = document.querySelectorAll('.popup-benefits');
+  const closeIndicator = document.getElementById('close-count-indicator');
+  
+  // 억제 상태 해제
+  if (isPopupSuppressed) {
+    isPopupSuppressed = false;
+    closeCount = 0;
+  }
+  
+  // 닫기 카운트 표시 업데이트
+  if (closeCount > 0) {
+    closeIndicator.style.display = 'flex';
+    closeIndicator.textContent = 2 - closeCount;
+  } else {
+    closeIndicator.style.display = 'none';
+  }
   
   // 랜덤 메시지로 변경
   const randomMessage = urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)];
@@ -1168,8 +1314,8 @@ function showPopup() {
   const currentAd = ads[currentAdIndex];
   currentAdUrl = currentAd.url;
   
-  // 광고 삽입 (iframe + 클릭 오버레이)
-  container.innerHTML = currentAd.iframe + '<div class="popup-ad-overlay" onclick="openAdDirectly()"></div>';
+  // 광고 삽입
+  container.innerHTML = currentAd.content + '<div class="popup-ad-overlay" onclick="openAdDirectly()"></div>';
   
   // 다음 광고 인덱스 설정
   currentAdIndex = (currentAdIndex + 1) % ads.length;
@@ -1177,6 +1323,7 @@ function showPopup() {
   // 팝업 표시
   overlay.style.display = 'flex';
   isPopupVisible = true;
+  lastPopupTime = Date.now();
   
   // 카운트다운 시작
   startCountdown();
@@ -1186,11 +1333,13 @@ function showPopup() {
 function openAdDirectly() {
   window.open(currentAdUrl, '_blank');
   closePopup();
+  // 클릭 시 다음 팝업 간격 증가
+  userInteractionCount += 5;
 }
 
 // 카운트다운 함수
 function startCountdown() {
-  let timeLeft = 30;
+  let timeLeft = 60;
   const countdownElement = document.getElementById('countdown');
   
   countdownTimer = setInterval(() => {
@@ -1213,26 +1362,39 @@ function closePopup() {
   if (countdownTimer) {
     clearInterval(countdownTimer);
   }
+  
+  // 닫기 횟수 증가
+  closeCount++;
+  trackUserInteraction();
+  
+  // 2번 닫으면 30초간 억제
+  if (closeCount >= 2) {
+    isPopupSuppressed = true;
+    suppressEndTime = Date.now() + 30000; // 30초
+    closeCount = 0;
+    
+    // 사용자에게 친화적인 알림 (선택사항)
+    setTimeout(() => {
+      console.log('잠시 휴식 중... 곧 다시 특가 정보를 제공해드릴게요! 😊');
+    }, 1000);
+  }
 }
 
-// 가짜 닫기 버튼 (실제로는 광고 클릭)
+// 가짜 닫기 버튼
 function handleFakeClose() {
-  // 70% 확률로 광고로 이동, 30% 확률로 실제 닫기
-  if (Math.random() > 0.3) {
+  // 첫 번째 닫기는 50% 확률로 광고 이동
+  if (closeCount === 0 && Math.random() > 0.5) {
     openAdDirectly();
   } else {
     closePopup();
   }
 }
 
-// 모바일에서 터치 이벤트 최적화
+// 모바일 최적화
 function addMobileOptimization() {
   if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     const style = document.createElement('style');
     style.textContent = `
-      .popup-ad-container {
-        min-height: 280px;
-      }
       .popup-close {
         width: 35px;
         height: 35px;
@@ -1250,10 +1412,15 @@ function addMobileOptimization() {
   }
 }
 
-// 팝업 외부 클릭 시 광고로 이동 (50% 확률)
+// 사용자 행동 추적 이벤트
+document.addEventListener('click', trackUserInteraction);
+document.addEventListener('scroll', trackUserInteraction);
+
+// 팝업 외부 클릭 처리
 document.getElementById('popup-overlay').addEventListener('click', function(e) {
   if (e.target === this) {
-    if (Math.random() > 0.5) {
+    // 첫 번째 외부 클릭은 30% 확률로 광고 이동
+    if (closeCount === 0 && Math.random() > 0.7) {
       openAdDirectly();
     } else {
       closePopup();
@@ -1261,48 +1428,61 @@ document.getElementById('popup-overlay').addEventListener('click', function(e) {
   }
 });
 
-// 30초마다 팝업 표시
-function startPopupTimer() {
-  popupTimer = setInterval(showPopup, 30000); // 30초
+// 적응형 팝업 타이머 시작
+function startAdaptivePopupTimer() {
+  popupTimer = setInterval(() => {
+    if (shouldShowPopup()) {
+      showPopup();
+    }
+  }, getAdaptiveInterval());
 }
 
 // 페이지 로드 후 설정
 window.addEventListener('load', function() {
+  loadAgodaScript();
   addMobileOptimization();
   
-  // 첫 팝업은 페이지 로드 8초 후
+  // 첫 팝업은 페이지 로드 15초 후 (사용자가 충분히 내용을 본 후)
   setTimeout(() => {
     showPopup();
-    startPopupTimer();
-  }, 8000);
+    startAdaptivePopupTimer();
+  }, 15000);
 });
 
-// 스크롤 시 팝업 표시
+// 스크롤 기반 지능형 팝업
 let scrollTriggered = false;
 window.addEventListener('scroll', function() {
-  if (!scrollTriggered && window.scrollY > 500) {
+  if (!scrollTriggered && window.scrollY > 800) {
     scrollTriggered = true;
     setTimeout(() => {
-      if (!isPopupVisible) {
+      if (shouldShowPopup()) {
         showPopup();
       }
-    }, 3000);
+    }, 5000);
   }
 });
 
-// 페이지 벗어나려 할 때 팝업 (exit intent)
+// Exit intent (데스크톱)
 document.addEventListener('mouseleave', function(e) {
-  if (e.clientY <= 0 && !isPopupVisible) {
+  if (e.clientY <= 0 && shouldShowPopup()) {
     showPopup();
   }
 });
 
-// ESC 키는 30% 확률로만 닫기
+// ESC 키 처리 (더 관대하게)
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape' && isPopupVisible) {
-    if (Math.random() > 0.7) {
+    if (closeCount === 0 || Math.random() > 0.3) {
       closePopup();
     }
+  }
+});
+
+// 페이지 가시성 변경 시 (탭 전환 등)
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    // 사용자가 탭을 벗어남
+    userInteractionCount++;
   }
 });
 </script>
