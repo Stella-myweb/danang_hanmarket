@@ -936,4 +936,133 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
     });
   </script>
 </body>
+
+	<!-- 팝업 광고 스타일 및 기능 -->
+<style>
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  position: relative;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 320px;
+  width: 90%;
+}
+
+.popup-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 10000;
+}
+
+.popup-close:hover {
+  background: #cc0000;
+}
+
+.popup-ad-frame {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 5px;
+}
+</style>
+
+<div id="popup-overlay" class="popup-overlay">
+  <div class="popup-content">
+    <button class="popup-close" onclick="closePopup()">×</button>
+    <div id="popup-ad-container">
+      <!-- 광고가 여기에 삽입됩니다 -->
+    </div>
+  </div>
+</div>
+
+<script>
+// 광고 배열
+const ads = [
+  '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148251?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-1"></iframe>',
+  '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-2"></iframe>',
+  '<iframe border="0" src="https://kr.trip.com/partners/ad/SB4148335?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="popup-ad-3"></iframe>'
+];
+
+let currentAdIndex = 0;
+let popupTimer;
+
+// 팝업 표시 함수
+function showPopup() {
+  const overlay = document.getElementById('popup-overlay');
+  const container = document.getElementById('popup-ad-container');
+  
+  // 현재 광고 삽입
+  container.innerHTML = ads[currentAdIndex];
+  
+  // 다음 광고 인덱스 설정
+  currentAdIndex = (currentAdIndex + 1) % ads.length;
+  
+  // 팝업 표시
+  overlay.style.display = 'flex';
+  
+  // 5초 후 자동으로 닫기 (선택사항)
+  setTimeout(() => {
+    if (overlay.style.display === 'flex') {
+      closePopup();
+    }
+  }, 5000);
+}
+
+// 팝업 닫기 함수
+function closePopup() {
+  const overlay = document.getElementById('popup-overlay');
+  overlay.style.display = 'none';
+}
+
+// 팝업 외부 클릭 시 닫기
+document.getElementById('popup-overlay').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closePopup();
+  }
+});
+
+// 30초마다 팝업 표시
+function startPopupTimer() {
+  popupTimer = setInterval(showPopup, 30000); // 30초
+}
+
+// 페이지 로드 후 10초 뒤에 첫 팝업 표시, 그 후 30초마다 반복
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    showPopup();
+    startPopupTimer();
+  }, 10000); // 첫 팝업은 페이지 로드 10초 후
+});
+
+// ESC 키로도 팝업 닫기 가능
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePopup();
+  }
+});
+</script>
 </html>
