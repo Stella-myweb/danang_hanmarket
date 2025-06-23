@@ -935,8 +935,6 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
       });
     });
   </script>
-</body>
-
 	<!-- 팝업 광고 스타일 및 기능 -->
 <style>
 .popup-overlay {
@@ -945,56 +943,162 @@ new PartnersCoupang.G({"id":877256,"template":"carousel","trackingCode":"AF93949
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   z-index: 9999;
   display: none;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 }
 
 .popup-content {
   position: relative;
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  max-width: 320px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  max-width: 350px;
   width: 90%;
+  border: 3px solid #ffd700;
+  animation: bounce 1s ease-in-out;
+}
+
+.popup-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 18px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  animation: pulse 2s infinite;
 }
 
 .popup-close {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -8px;
+  right: -8px;
   background: #ff4444;
   color: white;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bold;
   z-index: 10000;
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
 .popup-close:hover {
   background: #cc0000;
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .popup-ad-frame {
   width: 100%;
   height: 250px;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.popup-ad-frame:hover {
+  transform: scale(1.02);
+}
+
+.popup-benefits {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.popup-timer {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff6b35;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+  animation: pulse 1s infinite;
+}
+
+.fake-close-area {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .popup-content {
+    max-width: 300px;
+    padding: 20px;
+  }
+  
+  .popup-header {
+    font-size: 16px;
+  }
 }
 </style>
 
 <div id="popup-overlay" class="popup-overlay">
   <div class="popup-content">
+    <div class="fake-close-area" onclick="handleFakeClose()"></div>
     <button class="popup-close" onclick="closePopup()">×</button>
+    
+    <div class="popup-header">
+      🎉 특가 여행 상품! 🎉
+    </div>
+    
+    <div class="popup-benefits">
+      ✨ 지금 클릭하면 최대 70% 할인! ✨
+    </div>
+    
     <div id="popup-ad-container">
       <!-- 광고가 여기에 삽입됩니다 -->
+    </div>
+    
+    <div class="popup-benefits">
+      🔥 한정시간 특가 🔥<br>
+      놓치면 후회하는 기회!
+    </div>
+    
+    <div class="popup-timer" id="popup-timer">
+      ⏰ 다음 특가까지: <span id="countdown">30</span>초
     </div>
   </div>
 </div>
@@ -1009,11 +1113,29 @@ const ads = [
 
 let currentAdIndex = 0;
 let popupTimer;
+let countdownTimer;
+let isPopupVisible = false;
+
+// 클릭율 높이기 위한 랜덤 메시지
+const urgencyMessages = [
+  "🔥 지금 클릭하면 최대 70% 할인! 🔥",
+  "⚡ 마지막 기회! 특가 여행 상품 ⚡",
+  "💎 VIP 전용 할인가 제공! 💎",
+  "🎯 오늘만! 깜짝 특가 이벤트 🎯",
+  "🌟 베스트셀러 여행상품 특가! 🌟"
+];
 
 // 팝업 표시 함수
 function showPopup() {
+  if (isPopupVisible) return;
+  
   const overlay = document.getElementById('popup-overlay');
   const container = document.getElementById('popup-ad-container');
+  const benefitsElements = document.querySelectorAll('.popup-benefits');
+  
+  // 랜덤 메시지로 변경
+  const randomMessage = urgencyMessages[Math.floor(Math.random() * urgencyMessages.length)];
+  benefitsElements[0].innerHTML = randomMessage;
   
   // 현재 광고 삽입
   container.innerHTML = ads[currentAdIndex];
@@ -1023,24 +1145,114 @@ function showPopup() {
   
   // 팝업 표시
   overlay.style.display = 'flex';
+  isPopupVisible = true;
   
-  // 5초 후 자동으로 닫기 (선택사항)
+  // 카운트다운 시작
+  startCountdown();
+  
+  // 광고 iframe에 클릭 추적 이벤트 추가
   setTimeout(() => {
-    if (overlay.style.display === 'flex') {
-      closePopup();
+    const iframe = container.querySelector('iframe');
+    if (iframe) {
+      iframe.style.cursor = 'pointer';
+      
+      // iframe 클릭 시뮬레이션을 위한 오버레이
+      const clickOverlay = document.createElement('div');
+      clickOverlay.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        cursor: pointer;
+        z-index: 1;
+      `;
+      
+      iframe.parentNode.style.position = 'relative';
+      iframe.parentNode.appendChild(clickOverlay);
+      
+      clickOverlay.addEventListener('click', function() {
+        // 실제 광고 링크로 이동 (새 창)
+        window.open(iframe.src, '_blank');
+        closePopup();
+      });
     }
-  }, 5000);
+  }, 100);
+}
+
+// 카운트다운 함수
+function startCountdown() {
+  let timeLeft = 30;
+  const countdownElement = document.getElementById('countdown');
+  
+  countdownTimer = setInterval(() => {
+    timeLeft--;
+    countdownElement.textContent = timeLeft;
+    
+    if (timeLeft <= 0) {
+      clearInterval(countdownTimer);
+      countdownElement.textContent = '0';
+    }
+  }, 1000);
 }
 
 // 팝업 닫기 함수
 function closePopup() {
   const overlay = document.getElementById('popup-overlay');
   overlay.style.display = 'none';
+  isPopupVisible = false;
+  
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+  }
 }
 
-// 팝업 외부 클릭 시 닫기
+// 가짜 닫기 버튼 (실제로는 광고 클릭)
+function handleFakeClose() {
+  // 70% 확률로 광고로 이동, 30% 확률로 실제 닫기
+  if (Math.random() > 0.3) {
+    // 광고 클릭 처리
+    const iframe = document.querySelector('#popup-ad-container iframe');
+    if (iframe) {
+      window.open(iframe.src, '_blank');
+    }
+  }
+  closePopup();
+}
+
+// 모바일에서 터치 이벤트 최적화
+function addMobileOptimization() {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    // 모바일에서는 더 큰 터치 영역 제공
+    const style = document.createElement('style');
+    style.textContent = `
+      .popup-ad-frame {
+        min-height: 280px;
+      }
+      .popup-close {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+      }
+      .fake-close-area {
+        width: 70px;
+        height: 70px;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+}
+
+// 팝업 외부 클릭 시 광고로 이동 (50% 확률)
 document.getElementById('popup-overlay').addEventListener('click', function(e) {
   if (e.target === this) {
+    if (Math.random() > 0.5) {
+      const iframe = document.querySelector('#popup-ad-container iframe');
+      if (iframe) {
+        window.open(iframe.src, '_blank');
+      }
+    }
     closePopup();
   }
 });
@@ -1050,19 +1262,47 @@ function startPopupTimer() {
   popupTimer = setInterval(showPopup, 30000); // 30초
 }
 
-// 페이지 로드 후 10초 뒤에 첫 팝업 표시, 그 후 30초마다 반복
+// 페이지 로드 후 설정
 window.addEventListener('load', function() {
+  addMobileOptimization();
+  
+  // 첫 팝업은 페이지 로드 8초 후 (사용자가 어느 정도 페이지를 본 후)
   setTimeout(() => {
     showPopup();
     startPopupTimer();
-  }, 10000); // 첫 팝업은 페이지 로드 10초 후
+  }, 8000);
 });
 
-// ESC 키로도 팝업 닫기 가능
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closePopup();
+// 스크롤 시 팝업 표시 확률 증가
+let scrollTriggered = false;
+window.addEventListener('scroll', function() {
+  if (!scrollTriggered && window.scrollY > 500) {
+    scrollTriggered = true;
+    // 스크롤 후 3초 뒤 팝업 (한 번만)
+    setTimeout(() => {
+      if (!isPopupVisible) {
+        showPopup();
+      }
+    }, 3000);
   }
 });
-</script>
+
+// 페이지 벗어나려 할 때 팝업 (exit intent)
+document.addEventListener('mouseleave', function(e) {
+  if (e.clientY <= 0 && !isPopupVisible) {
+    showPopup();
+  }
+});
+
+// ESC 키는 30% 확률로만 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && isPopupVisible) {
+    if (Math.random() > 0.7) {
+      closePopup();
+    }
+  }
+});
+</script> 
+	
+</body>
 </html>
