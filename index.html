@@ -763,8 +763,9 @@
     const ads = [
       {
         content: `
-          <div id="coupang-ad-container" style="width: 100%; height: 400px; display: flex; justify-content: center; align-items: center; background: #fff; border-radius: 10px; position: relative;">
-            <div id="coupang-ad-910766" style="width: 300px; height: 400px;"></div>
+          <div id="coupang-ad-container" style="width: 100%; height: 400px; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%); border-radius: 10px; position: relative; border: 2px solid #ddd;">
+            <div id="coupang-ad-910766" style="width: 300px; height: 400px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"></div>
+            <div style="position: absolute; top: 10px; left: 10px; background: #ff6b35; color: white; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold;">쿠팡 파트너스</div>
           </div>
         `,
         url: 'https://www.coupang.com',
@@ -809,30 +810,18 @@
 
     // 쿠팡 스크립트 로딩 함수
     function loadCoupangAd() {
-      // 쿠팡 스크립트가 이미 로드되었는지 확인
-      if (!window.PartnersCoupang && !document.getElementById('coupang-popup-script')) {
-        const script = document.createElement('script');
-        script.id = 'coupang-popup-script';
-        script.src = 'https://ads-partners.coupang.com/g.js';
-        script.onload = function() {
-          // 스크립트 로드 후 광고 생성
-          if (window.PartnersCoupang) {
-            setTimeout(() => {
-              new window.PartnersCoupang.G({
-                "id": 910766,
-                "template": "carousel", 
-                "trackingCode": "AF9394945",
-                "width": "300",
-                "height": "400",
-                "tsource": ""
-              });
-            }, 100);
-          }
-        };
-        document.head.appendChild(script);
-      } else if (window.PartnersCoupang) {
-        // 이미 로드되었다면 바로 광고 생성
-        setTimeout(() => {
+      console.log('🔄 쿠팡 광고 로딩 시작...');
+      
+      // 기존 광고가 있다면 제거
+      const existingAd = document.querySelector('#coupang-ad-910766 > div');
+      if (existingAd) {
+        existingAd.remove();
+      }
+      
+      // 쿠팡 스크립트 로드
+      if (window.PartnersCoupang) {
+        console.log('✅ 쿠팡 스크립트 이미 로드됨, 광고 생성 중...');
+        try {
           new window.PartnersCoupang.G({
             "id": 910766,
             "template": "carousel",
@@ -841,7 +830,40 @@
             "height": "400",
             "tsource": ""
           });
-        }, 100);
+          console.log('✅ 쿠팡 광고 생성 완료');
+        } catch (error) {
+          console.error('❌ 쿠팡 광고 생성 실패:', error);
+        }
+      } else {
+        console.log('📥 쿠팡 스크립트 로딩 중...');
+        // 스크립트가 없다면 로드
+        if (!document.getElementById('coupang-popup-script')) {
+          const script = document.createElement('script');
+          script.id = 'coupang-popup-script';
+          script.src = 'https://ads-partners.coupang.com/g.js';
+          script.onload = function() {
+            console.log('✅ 쿠팡 스크립트 로드 완료');
+            if (window.PartnersCoupang) {
+              try {
+                new window.PartnersCoupang.G({
+                  "id": 910766,
+                  "template": "carousel", 
+                  "trackingCode": "AF9394945",
+                  "width": "300",
+                  "height": "400",
+                  "tsource": ""
+                });
+                console.log('✅ 쿠팡 광고 생성 완료');
+              } catch (error) {
+                console.error('❌ 쿠팡 광고 생성 실패:', error);
+              }
+            }
+          };
+          script.onerror = function() {
+            console.error('❌ 쿠팡 스크립트 로드 실패');
+          };
+          document.head.appendChild(script);
+        }
       }
     }
 
