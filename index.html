@@ -1498,7 +1498,9 @@ const FIRST_POPUP_DELAY_MS = 10000; // 👈 페이지 로드 10초 후 첫 팝�
 // ==========================================
 // === 광고 정보 배열 ===
 // ==========================================
-
+  / ==========================================
+// === 위 코드를 아래 쿠팡 파트너스 광고로 교체 ===
+// ==========================================
 
 const ads = [
   {
@@ -1510,7 +1512,43 @@ const ads = [
     url: 'https://www.coupang.com',
     type: 'coupang'
   }
-];
+]; 
+//const ads = [
+// === 기존 [Trip.com](http://trip.com/) 일반 광고 ===
+// {
+//content: '<iframe border="0" src="https://kr.trip.com/partners/ad/DB4148524?Allianceid=5803428&SID=225752899&trip_sub1=" class="popup-ad-frame" frameborder="0" scrolling="no" id="DB4148524"></iframe>',
+//url: 'https://kr.trip.com/?locale=ko-kr&curr=krw',
+//type: 'trip'
+//},
+
+// === 커스텀 Agoda 광고 ===
+//{
+//content: `<div style="width: 100%; height: 280px; background: linear-gradient(135deg, #0066cc 0%, #004499 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif;">       <div style="font-size: 26px; font-weight: bold; margin-bottom: 12px;">🏨 Agoda</div>       <div style="font-size: 20px; margin-bottom: 18px;">다낭 특가 호텔</div>       <div style="font-size: 16px; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; margin-bottom: 12px;">최대 70% 할인</div>       <div style="font-size: 14px; opacity: 0.9;">지금 예약하고 혜택 받기!</div>     </div>`,
+//url: 'https://www.agoda.com/ko-kr/city/da-nang-vn.html?cid=1935109',
+//type: 'agoda'
+},
+
+// === 포포인츠 바이 쉐라톤 다낭 10% 할인 ===
+//{
+//content: `<div style="width: 100%; height: 280px; background: linear-gradient(135deg, #1a365d 0%, #2d5aa0 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">       <div style="position: absolute; top: 12px; right: 12px; background: #ff4757; color: white; padding: 6px 12px; border-radius: 15px; font-size: 12px; font-weight: bold; animation: pulse 2s infinite;">10% OFF</div>       <div style="z-index: 2; position: relative;">         <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">🏨 쉐라톤</div>         <div style="font-size: 18px; margin-bottom: 15px; line-height: 1.3;">포포인츠 바이 쉐라톤<br>다낭</div>         <div style="font-size: 14px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-bottom: 10px;">✨ 특가 10% 할인 ✨</div>         <div style="font-size: 12px; opacity: 0.9;">5성급 럭셔리 호텔 최저가!</div>       </div>     </div>`,
+//url: 'https://www.trip.com/t/GrgJZ1SpLQ2',
+//type: 'hotel_special'
+//},
+
+// === 퓨전리조트 신상 호텔 10% 할인 ===
+//{
+//content: `<div style="width: 100%; height: 280px; background: linear-gradient(135deg, #0f3460 0%, #e94560 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">       <div style="position: absolute; top: 10px; left: 10px; background: #ffa726; color: white; padding: 5px 10px; border-radius: 12px; font-size: 10px; font-weight: bold;">NEW OPEN</div>       <div style="position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; animation: pulse 2s infinite;">10% 할인</div>       <div style="z-index: 2; position: relative;">         <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">🌺 퓨전리조트</div>         <div style="font-size: 17px; margin-bottom: 15px; line-height: 1.3;">다낭 신상 호텔<br>그랜드 오픈!</div>         <div style="font-size: 14px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-bottom: 10px;">🎉 오픈 기념 10% 할인</div>         <div style="font-size: 12px; opacity: 0.9;">최신 시설! 완전 새 호텔!</div>       </div>     </div>`,
+//url: 'https://www.trip.com/t/U2gODTapLQ2',
+//type: 'hotel_special'
+//},
+
+// === 스텔라 마리스 비치 다낭 최저가 ===
+//{
+//content: `<div style="width: 100%; height: 280px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; font-family: Arial, sans-serif; position: relative; overflow: hidden;">       <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50% 50% 0 0; transform: scale(1.5);"></div>       <div style="position: absolute; top: 12px; right: 12px; background: #00d2ff; color: white; padding: 6px 12px; border-radius: 15px; font-size: 11px; font-weight: bold;">최저가 보장</div>       <div style="z-index: 2; position: relative;">         <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">🏖️ 스텔라 마리스</div>         <div style="font-size: 17px; margin-bottom: 15px; line-height: 1.3;">비치 다낭<br>해변가 최고 위치!</div>         <div style="font-size: 14px; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; margin-bottom: 10px;">🌊 바다 바로 앞 최저가</div>         <div style="font-size: 12px; opacity: 0.9;">오션뷰 확정! 가성비 최고!</div>       </div>     </div>`,
+//url: 'https://www.trip.com/t/9AxruKfpLQ2',
+//type: 'hotel_special'
+//}
+//];
 
 // ==========================================
 // === 시스템 변수들 ===
